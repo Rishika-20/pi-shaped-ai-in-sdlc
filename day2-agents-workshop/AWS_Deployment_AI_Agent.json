@@ -1,0 +1,135 @@
+{
+  "name": "AWS_Deployment_AI_Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -512,
+        -176
+      ],
+      "id": "8139518b-7acf-4da2-95d9-794b0d1533e4",
+      "name": "When chat message received",
+      "webhookId": "39df0434-d8b2-40e7-a511-216a21c7eab4"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a DevOps Assistant. Help the user deploy Java apps on AWS. Use the Wikipedia tool for technical definitions."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        96,
+        -176
+      ],
+      "id": "af2bd864-6f19-45d4-b44a-537644ebd8db",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -64,
+        160
+      ],
+      "id": "39401463-eee2-4258-8baf-c6244358568e",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        96,
+        160
+      ],
+      "id": "d8ee6384-827b-4d15-852d-98dd8cb766a8",
+      "name": "Wikipedia"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-flash-lite-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        176
+      ],
+      "id": "f63d1976-f82c-4633-9da5-448f91cb0a01",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "knQEBPVE143ALQa7",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "72b828c1-02d9-4f91-9abd-acc0f4546cd9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6b4ba160895c0e75e6b926b10bcccd988562588f8136c94b75ea5391c8758daa"
+  },
+  "id": "RnqvYMjMEntc4Pt7",
+  "tags": []
+}
